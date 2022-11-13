@@ -9,8 +9,10 @@ const AuthContext = createContext({
     authReady: false
 })
 
+//linea  para que cuando carguemos pagina no haya sesion iniciada
 export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState(null)
+  const [authReady, setAuthReady] = useState(false) 
 
   useEffect(() => {
     //conexion con netlify
@@ -30,7 +32,15 @@ export const AuthContextProvider = ({ children }) => {
         setUser(null)
         console.log('logout event')
       })
-      
+
+    //
+    netlifyIdentity.on('init', (user) => {
+      setUser(user)
+      setAuthReady(true)
+      console.log('init event')
+    })  
+
+
     // init netlify identity connection
     netlifyIdentity.init()
 
@@ -53,7 +63,7 @@ export const AuthContextProvider = ({ children }) => {
   }
 
   //para acceder a las funciones
-  const context = { user, login, logout }
+  const context = { user, login, logout, authReady }
 
   return (
     <AuthContext.Provider value={context}>
