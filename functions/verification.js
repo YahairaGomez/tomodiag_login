@@ -2,6 +2,7 @@
 exports.handler = async (event, context) => {
     console.log('function ran')
   
+    //respuesta 
     const data = { name: 'Yahaira', age: 35, job: 'empresauria' } 
   
     // retorno respuesta al browser
